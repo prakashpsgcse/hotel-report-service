@@ -1,0 +1,10 @@
+.settings
+.project
+.classpath
+*.jar
+*/jar
+*/.settings
+*.class
+.DS_Store
+.metadata
+.settings/

@@ -1,0 +1,16 @@
+{
+	"hotelId": "hot123",
+	"resources": [{
+			"resourceType": "WATER",
+			"waterConsumed": 1000
+		},
+		{
+			"resourceType": "ELECTRICITY",
+			"electricityConsumed": 1000
+		},
+		{
+			"resourceType": "WASTE",
+			"wasteProduced": 1000
+		}
+	]
+}

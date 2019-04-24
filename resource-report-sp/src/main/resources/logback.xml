@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<configuration>
+ 
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n</pattern>
+    </encoder>
+  </appender>
+  
+  	<appender name="FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>logs/report-sp.log</file>
+		<append>true</append>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>logs/report-sp.%d{yyyy-MM-dd_HH}</fileNamePattern>
+		</rollingPolicy>
+        <encoder>
+                    <pattern>%-30(%d %level)- %msg%n%ex</pattern>
+        </encoder>
+	</appender>
+ 
+  <logger name="org.apache" level="DEBUG" additivity="false">
+   <appender-ref ref="STDOUT" />
+  </logger>
+    <logger name="com.target" level="DEBUG"  additivity="false">
+   <appender-ref ref="STDOUT" />
+    <appender-ref ref="FILE" />
+  </logger>
+ 
+  <root level="DEBUG">          
+    <appender-ref ref="STDOUT" />
+    <appender-ref ref="FILE" />
+  </root>  
+   
+</configuration>
