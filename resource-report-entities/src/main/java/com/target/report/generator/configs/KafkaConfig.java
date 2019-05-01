@@ -27,12 +27,28 @@ public class KafkaConfig {
     @Value("${kafka.value.serializer}")
     private String valueSerializer;
 
+    @Value("${kafka.producer.retry}")
+    private String kafkaProducerRetry;
+
+    @Value("${enable.exactly.once.delivery}")
+    private boolean enableExactlyOnceDelivery;
+
+    @Value("${max.inflight.req}")
+    private String maxInflightReq;
+
     private Properties getKafkaProducerProps() {
         Properties kafkaProperties = new Properties();
         kafkaProperties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, brokerUrl);
         kafkaProperties.put(ProducerConfig.ACKS_CONFIG, acks);
         kafkaProperties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, keySerializer);
         kafkaProperties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, valueSerializer);
+        kafkaProperties.put(ProducerConfig.RETRIES_CONFIG, kafkaProducerRetry);
+        if (enableExactlyOnceDelivery) {
+            kafkaProperties.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, "true");
+            kafkaProperties.put(ProducerConfig.ACKS_CONFIG, "all");
+            kafkaProperties.put(ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, maxInflightReq);
+            kafkaProperties.put(ProducerConfig.RETRIES_CONFIG, Integer.MAX_VALUE);
+        }
 
         LOGGER.debug("Kafka properties {} ", kafkaProperties);
         return kafkaProperties;

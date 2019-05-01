@@ -3,6 +3,7 @@ package com.target.report.generator.processors;
 import org.apache.kafka.streams.processor.Processor;
 import org.apache.kafka.streams.processor.ProcessorSupplier;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 /**
@@ -18,8 +19,16 @@ public class ResourceTransformerPreProcessorSupplier implements ProcessorSupplie
     @Autowired
     ResourceTransformerPreProcessor ResourceTransformerPreProcessor;
 
+    @Autowired
+    ApplicationContext ctx;
+
+    /**
+     * This should return new Instance .Number of Objects created should be
+     * equal to number of stream thread. Toplology will be created for each
+     * stream thread.
+     */
     public Processor<byte[], byte[]> get() {
-        return ResourceTransformerPreProcessor;
+        return ctx.getBean(ResourceTransformerPreProcessor.class);
     }
 
 }

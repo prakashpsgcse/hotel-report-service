@@ -3,6 +3,7 @@ package com.target.report.generator.processors;
 import org.apache.kafka.streams.processor.Processor;
 import org.apache.kafka.streams.processor.ProcessorSupplier;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import com.target.report.generator.domain.HotelResourceInfo;
@@ -19,8 +20,16 @@ public class ResourceTransformerPostProcessorSupplier implements ProcessorSuppli
     @Autowired
     ResourceTransformerPostProcessor ResourceTransformerPostProcessor;
 
+    @Autowired
+    ApplicationContext ctx;
+
+    /**
+     * This should return new Instance .Number of Objects created should be
+     * equal to number of stream thread. Toplology will be created for each
+     * stream thread.
+     */
     public Processor<String, HotelResourceInfo> get() {
-        return ResourceTransformerPostProcessor;
+        return ctx.getBean(ResourceTransformerPostProcessor.class);
     }
 
 }

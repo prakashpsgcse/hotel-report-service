@@ -5,6 +5,8 @@ import org.apache.kafka.streams.processor.ProcessorContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +21,7 @@ import com.target.report.generator.domain.HotelResourceInfo;
  *
  */
 @Component
+@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class ResourceTransformerPostProcessor implements Processor<String, HotelResourceInfo> {
     public static final Logger LOGGER = LoggerFactory.getLogger(ResourceTransformerPreProcessor.class);
 
