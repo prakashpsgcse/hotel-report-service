@@ -1,0 +1,37 @@
+./kafka-topics.sh  --create --topic reports  --partitions 10 --replication-factor 2  --zookeeper localhost:2181 --config retention.ms=604800000 --config max.message.bytes=1000012 --config min.insync.replicas=1 --config compression.type=producer
+
+./kafka-console-consumer.sh --bootstrap-server localhost:9092  --from-beginning --topic reports --property print.key=true
+
+./kafka-run-class.sh kafka.admin.ConsumerGroupCommand --bootstrap-server localhost:9092 --list
+
+./kafka-run-class.sh kafka.admin.ConsumerGroupCommand --bootstrap-server localhost:9092 --describe --group report-generator
+
+
+
+[   {"$match":{"hotelName":{"$eq":"LeelaPalace"}}},
+    	{ "$unwind": "$resources" },
+    	{"$match":{"resources.resourceType":{"$eq":"WASTE"}}},
+        {"$group":{"_id":"$timeStamp","wasteProduced":{"$sum":"$resources.wasteProduced"}}},{"$sort":{"timeStamp":1}},{"$project":{"timeStamp":true,"wasteProduced":true}}
+    ]
+
+
+[   { "$unwind": "$resources" },
+    	{"$match":{"resources.resourceType":{"$eq":"WASTE"}}},
+        {"$group":{"_id":"$hotelName","wasteProduced":{"$sum":"$resources.wasteProduced"}}},{"$sort":{"timeStamp":1}},{"$project":{"timeStamp":true,"wasteProduced":true}}
+    ]
+
+
+[   { "$unwind": "$resources" },
+    	{"$match":{"resources.resourceType":{"$eq":"WASTE"}}},
+        {"$group":{"_id":"$timeStamp","wasteProduced":{"$sum":"$resources.wasteProduced"}}},{"$sort":{"timeStamp":1}},{"$project":{"timeStamp":true,"wasteProduced":true}}
+    ]
+
+
+
+[   {"$match":{"hotelName":{"$eq":"LeelaPalace"}}},
+{"$match":{"timeStamp":{"$gt":1555784697000}}},
+{"$match":{"timeStamp":{"$lt":1555784697600}}},
+    	{ "$unwind": "$resources" },
+    	{"$match":{"resources.resourceType":{"$eq":"WASTE"}}},
+        {"$group":{"_id":"$timeStamp","wasteProduced":{"$sum":"$resources.wasteProduced"}}},{"$sort":{"timeStamp":1}},{"$project":{"timeStamp":true,"wasteProduced":true}}
+    ]

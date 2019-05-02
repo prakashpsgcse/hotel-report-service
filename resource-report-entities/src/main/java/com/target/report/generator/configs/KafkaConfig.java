@@ -55,9 +55,9 @@ public class KafkaConfig {
     }
 
     @Bean
-    public <K, V> Producer<K, V> getProducer() {
+    public Producer<byte[], byte[]> getProducer() {
 
-        Producer<K, V> kafkaProducer = new KafkaProducer<>(getKafkaProducerProps());
+        Producer<byte[], byte[]> kafkaProducer = new KafkaProducer<>(getKafkaProducerProps());
         LOGGER.debug("Kakfa producer created ");
         return kafkaProducer;
     }
